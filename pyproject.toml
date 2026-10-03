@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-qwen21-adult-policy"
 description = "18+ only. ErosCraft's content policy for Qwen Image 2.1: two gates, two background rules that neither can override, and a Civitai Red LoRA picker."
-version = "1.1.4"
+version = "1.1.5"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.10"

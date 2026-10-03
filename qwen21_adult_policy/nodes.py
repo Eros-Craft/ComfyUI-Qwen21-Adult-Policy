@@ -15,10 +15,9 @@ assume is a bug.
 """
 import json
 import os
-import re
 
 from .policies import (FACT_SYSTEM, OUTPUT_STOPS, OUTPUT_UNCLEAR, RECOMMENDED, REWRITE_STOPS, SAMPLING_BY_VERSION,
-                       UNCLEAR, gates_off, parse_answer, product, refused_words, verdict)
+                       UNCLEAR, clear_keys, gates_off, parse_answer, product, refused_words, verdict)
 
 CATEGORY = "Qwen Image 2.1/ErosCraft"
 NONE = "(none)"
@@ -75,7 +74,7 @@ def _answer(raw):
         return None
     text = str(raw)
     if THINK_END in text:
-        return text.split(THINK_END)[-1]
+        return text.split(THINK_END, 1)[1]      # a second close tag stays in the answer, which makes it unclear
     if THINK_START in text:
         return None
     return text
@@ -92,14 +91,7 @@ def _merge(into, new, facts):
 
 def _clear_keys(answer, facts):
     """The facts the model answered with a plain yes or no. Only these can name a rule in a stop."""
-    low = (answer or "").lower()
-    out = set()
-    for f in facts:
-        i = low.find(f.key.lower())
-        word = re.match(r"[a-z]+", low[i + len(f.key):].lstrip(" :\t")) if i >= 0 else None
-        if word and word.group(0) in ("no", "yes"):
-            out.add(f.key)
-    return out
+    return clear_keys(answer, facts)
 
 
 def _stop_message(policy, facts, clearly_unsafe, stops, unclear):
