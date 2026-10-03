@@ -46,6 +46,7 @@ INPUT_SCOPE_ALL = _p.INPUT_SCOPE_ALL
 REFUSAL_STOPS_ALL_FLOWS = _p.REFUSAL_STOPS_ALL_FLOWS
 FACT_SYSTEM = _p.FACT_SYSTEM
 parse_answer = _p.parse_answer
+clear_keys = _p.clear_keys
 verdict = _p.verdict
 
 # --------------------------------------------------------------------------- the facts
